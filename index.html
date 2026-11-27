@@ -30,7 +30,7 @@
 
       <nav class="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
         <a href="#products" class="transition hover:text-brand">Products</a>
-        <a href="#about" class="transition hover:text-brand">About</a>
+        <a href="#cart" class="transition hover:text-brand">Cart</a>
         <a href="./admin/admin.html" class="transition hover:text-brand">Admin</a>
       </nav>
 
@@ -39,7 +39,6 @@
         class="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
         aria-label="Open shopping cart"
       >
-        <span aria-hidden="true">🛒</span>
         <span>Cart</span>
         <span id="cart-count" class="rounded-full bg-white/20 px-2 py-0.5 text-xs">0</span>
       </button>
@@ -76,9 +75,7 @@
         </div>
       </div>
 
-      <!-- Your JavaScript can render product cards inside this grid. -->
       <div id="product-list" class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <!-- Example card: replace/render these from your products array. -->
         <article class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
           <div class="flex h-48 items-center justify-center bg-slate-100">
             <div class="text-6xl" aria-hidden="true">📱</div>
@@ -118,7 +115,6 @@
               <th class="px-3 py-3 text-right font-semibold">Action</th>
             </tr>
           </thead>
-          <!-- Render cart rows here. -->
           <tbody id="cart-list" class="divide-y divide-slate-100">
             <tr id="cart-placeholder">
               <td colspan="5" class="px-3 py-10 text-center text-slate-400">Your cart is empty.</td>
@@ -141,7 +137,6 @@
     </footer>
   </main>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.21.1/axios.min.js" integrity="sha512-YiweniDPqprdTP7mvKVpKWv3jMGTY9frHzOTmDqbutoqcypYCRo8nfKhhDKnSiXTTMN0kBrDtTozIlM11wqcAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- Add your own JavaScript files and event handlers here. -->
   <script type="module" src="./js/storefront/main.js"></script>
 </body>
 </html>
