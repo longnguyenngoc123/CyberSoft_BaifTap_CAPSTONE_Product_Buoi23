@@ -1,6 +1,6 @@
 class Product {
 
-    constructor(id, name, price, screen, backCamera, frontCamera, img, desc, type) {
+    constructor(id, name, screen, backCamera, frontCamera, img, desc, type) {
         this.id = id;
         this.name = name;
         this.price = Number(price);
