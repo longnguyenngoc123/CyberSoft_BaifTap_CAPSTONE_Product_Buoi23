@@ -9,26 +9,20 @@ function getId(id) {
 function getAllProduct() {
     const promise = service.getAllProduct();
     promise.then(function(result) {
-        renderListProduct(result.data);
-        return result.data;
+        let data = [];
+        const sortType = getId("sort-price").value;
+        const keyword = getId("search-product").value;
+        data = doFilterSort(sortType, keyword, result.data);
+        renderListProduct(data);
     })
     .catch(function(error){
         alert(`Failed to fetch product list: ${error}`);
-        return null;
     })
 }
 
 function renderListProduct(data) {
     let content = "";
-    let sortedData = [];
-    const sortType = getId("sort-price").value;
-    if (sortType !== null && sortType !== "") {
-        sortedData = sortProductByPrice(sortType, data);
-    }
-    else {
-        sortedData = data;
-    }
-    sortedData.forEach(function(product, i) {
+    data.forEach(function(product, i) {
         content += `<tr>
                 <td class="px-6 py-4">
                     <div class="text-xs text-slate-400">
@@ -80,7 +74,33 @@ function sortProductByPrice(sortType, listProduct) {
     : [...listProduct].sort((a, b) => b.price - a.price);
 }
 
+
+function filterByKeyWord(keyword, listProduct) {
+    return listProduct.filter((product) => 
+        product.name.toLowerCase().includes(keyword.toLowerCase()));
+}
+
+
+function doFilterSort(sortType, keyword, listProduct) {
+    let newList = [];
+    if (keyword !== null && keyword !== "") {
+            newList = filterByKeyWord(keyword, listProduct);
+    }
+    else {
+        newList = listProduct;
+    }
+
+    if (sortType !== null && sortType !== "") {
+        newList = sortProductByPrice(sortType, newList);
+    }
+    return newList;
+}
+
 getId("sort-price").onchange = (() => {
+    getAllProduct();
+})
+
+getId("search-product").onkeyup = (() => {
     getAllProduct();
 })
 
