@@ -213,7 +213,7 @@ function getDataFromModal() {
     isValid &= validateText(type, "product-brand");
     isValid &= validatePrice(price);
 
-    if (!isValid) return;
+    if (!isValid) return null;
 
     const product = new Product("", name, price, screen, backCamera, frontCamera, img, desc, type);
 
