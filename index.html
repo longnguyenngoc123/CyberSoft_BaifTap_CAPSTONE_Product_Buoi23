@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MobileHub | Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#172033",
+            brand: "#4f46e5",
+            soft: "#f5f7fb"
+          },
+          boxShadow: {
+            soft: "0 12px 35px rgba(15, 23, 42, 0.07)"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-soft text-ink">
+  <!-- Store header -->
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+      <a href="index.html" class="text-xl font-black tracking-tight text-brand sm:text-2xl">MobileHub<span class="text-slate-900">.</span></a>
+
+      <nav class="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
+        <a href="#products" class="transition hover:text-brand">Products</a>
+        <a href="#about" class="transition hover:text-brand">About</a>
+        <a href="/admin/admin.html" class="transition hover:text-brand">Admin</a>
+      </nav>
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
+        aria-label="Open shopping cart"
+      >
+        <span aria-hidden="true">🛒</span>
+        <span>Cart</span>
+        <span id="cart-count" class="rounded-full bg-white/20 px-2 py-0.5 text-xs">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <!-- Hero -->
+    <section class="overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-700 via-brand to-violet-600 px-6 py-10 text-white shadow-soft sm:px-10 sm:py-14">
+      <div class="max-w-2xl">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-indigo-100">Find your next device</p>
+        <h1 class="text-3xl font-black leading-tight sm:text-5xl">Technology that<br class="hidden sm:block" /> keeps you moving.</h1>
+        <p class="mt-4 max-w-xl text-sm leading-6 text-indigo-100 sm:text-base">Explore our collection of smartphones and find the right device for your everyday life.</p>
+        <a href="#products" class="mt-7 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-bold text-indigo-700 transition hover:bg-indigo-50">Browse products</a>
+      </div>
+    </section>
+
+    <!-- Product section -->
+    <section id="products" class="mt-10 sm:mt-14">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand">Our collection</p>
+          <h2 class="mt-1 text-2xl font-black sm:text-3xl">Featured smartphones</h2>
+          <p class="mt-2 text-sm text-slate-500">Choose a device and add it to your cart.</p>
+        </div>
+
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <label for="product-filter" class="text-sm font-medium text-slate-600">Filter by brand</label>
+          <select id="product-filter" class="min-w-44 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none transition focus:border-brand focus:ring-4 focus:ring-indigo-100">
+            <option value="all">All products</option>
+            <option value="samsung">Samsung</option>
+            <option value="iphone">iPhone</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Your JavaScript can render product cards inside this grid. -->
+      <div id="product-list" class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <!-- Example card: replace/render these from your products array. -->
+        <article class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+          <div class="flex h-48 items-center justify-center bg-slate-100">
+            <div class="text-6xl" aria-hidden="true">📱</div>
+          </div>
+          <div class="p-5">
+            <p class="text-xs font-bold uppercase tracking-wider text-brand">Samsung</p>
+            <h3 class="mt-2 text-lg font-bold">Sample smartphone</h3>
+            <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">A short product description will appear here.</p>
+            <div class="mt-5 flex items-center justify-between gap-3">
+              <span class="text-lg font-black">$899</span>
+              <button type="button" class="rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">Add to cart</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p id="product-empty" class="hidden rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">No products found.</p>
+    </section>
+
+    <!-- Cart -->
+    <section id="cart" class="mt-12 rounded-3xl border border-slate-200 bg-white p-5 shadow-soft sm:mt-16 sm:p-8">
+      <div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand">Your selection</p>
+          <h2 class="mt-1 text-2xl font-black">Shopping cart</h2>
+        </div>
+        <span id="cart-items-label" class="text-sm text-slate-500">0 items</span>
+      </div>
+
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full min-w-[600px] text-left text-sm">
+          <thead class="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
+            <tr>
+              <th class="px-3 py-3 font-semibold">Product</th>
+              <th class="px-3 py-3 font-semibold">Price</th>
+              <th class="px-3 py-3 font-semibold">Quantity</th>
+              <th class="px-3 py-3 text-right font-semibold">Subtotal</th>
+              <th class="px-3 py-3 text-right font-semibold">Action</th>
+            </tr>
+          </thead>
+          <!-- Render cart rows here. -->
+          <tbody id="cart-list" class="divide-y divide-slate-100">
+            <tr id="cart-placeholder">
+              <td colspan="5" class="px-3 py-10 text-center text-slate-400">Your cart is empty.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-6 flex flex-col gap-5 border-t border-slate-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-sm text-slate-500">Review your items before checkout.</p>
+        <div class="flex flex-col items-stretch gap-3 sm:items-end">
+          <p class="text-sm text-slate-500">Total <strong id="cart-total" class="ml-3 text-2xl font-black text-ink">$0</strong></p>
+          <button id="checkout-button" type="button" class="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-100">Checkout</button>
+        </div>
+      </div>
+    </section>
+
+    <footer id="about" class="py-10 text-center text-sm text-slate-400">
+      © 2026 MobileHub. Built for the JavaScript Capstone project.
+    </footer>
+  </main>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.21.1/axios.min.js" integrity="sha512-YiweniDPqprdTP7mvKVpKWv3jMGTY9frHzOTmDqbutoqcypYCRo8nfKhhDKnSiXTTMN0kBrDtTozIlM11wqcAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Add your own JavaScript files and event handlers here. -->
+  <script type="module" src="/js/storefront/main.js"></script>
+</body>
+</html>
