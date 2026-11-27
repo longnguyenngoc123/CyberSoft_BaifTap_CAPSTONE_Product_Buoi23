@@ -5,11 +5,18 @@ class ProductService {
     };
 
     getAllProduct() {
-        const promise = axios({
+        return axios({
             url: this.url,
             method: "GET"
         })
-        return promise;
+    }
+
+    addPrdouct(product) {
+        return axios({
+            url: this.url,
+            method: "POST",
+            data: product
+        })
     }
 
 

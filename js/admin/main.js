@@ -1,6 +1,11 @@
+import Product from "../model/Product.js";
 import ProductService from "../service/productService.js";
 
+// >>> Declare global varible
 const service = new ProductService();
+
+
+// >>> CRUD operation function
 
 function getId(id) {
     return document.getElementById(id);
@@ -19,6 +24,19 @@ function getAllProduct() {
         alert(`Failed to fetch product list: ${error}`);
     })
 }
+
+function addProduct(product) {
+    const promise = service.addPrdouct(product);
+    promise.then(function() {
+        getAllProduct();
+        closeProductModal();
+    })
+    .catch(function(error){
+        alert(`Failed to add product: ${error}`);
+    })
+}
+
+// >>> Rendering
 
 function renderListProduct(data) {
     let content = "";
@@ -67,6 +85,10 @@ function renderListProduct(data) {
         product.type === "Iphone").length;
 }
 
+
+
+// >>> Sub feature => Sorting, filtering keywork, validation
+
 function sortProductByPrice(sortType, listProduct) {
     
     return sortType === "asc" 
@@ -96,6 +118,112 @@ function doFilterSort(sortType, keyword, listProduct) {
     return newList;
 }
 
+function validateText(text, divId) {
+    if (text === null || text.trim() === "") {
+        getId(`${divId}-error`).classList.remove("hidden");
+        return false;
+    }
+    else {
+        getId(`${divId}-error`).classList.add("hidden");
+        return true;
+    }
+}
+
+function validatePrice(value) {
+    if (value === null || value.trim() === "") {
+        getId("product-price-error").classList.remove("hidden");
+        return false;
+    }
+
+    else if (value < 0) {
+        getId("product-price-error").classList.remove("hidden");
+        getId("product-price-error").innerHTML = "Price must be greater than 0";
+        return false;
+    }
+    else {
+        getId("product-price-error").classList.add("hidden");
+        return true;
+    }
+}
+
+
+// >>> Handle modal interaction and modal data
+
+const addProductButton = getId("add-product-button");
+const productFormSection = getId("product-form-section");
+const productForm = getId("product-form");
+const closeFormButton = getId("close-form-button");
+const cancelFormButton = getId("cancel-form-button");
+
+function openProductModal() {
+    productFormSection.classList.remove("hidden");
+    productFormSection.classList.add("flex");
+}
+
+function closeProductModal() {
+    productFormSection.classList.add("hidden");
+    productFormSection.classList.remove("flex");
+
+    // Reset modal input
+    productForm.reset();
+
+    // Clear validation errors ([id$="-error"] find every tag with id end with error)
+    // Example: product-brand-error, product-name-error, ...-error;
+    document.querySelectorAll('[id$="-error"]').forEach(error => {
+        error.classList.add("hidden");
+    });
+}
+
+
+addProductButton.addEventListener("click", openProductModal);
+closeFormButton.addEventListener("click", closeProductModal);
+cancelFormButton.addEventListener("click", closeProductModal);
+
+// Close model when click outside
+productFormSection.addEventListener("click", (event) => {
+    if (event.target === productFormSection) {
+        closeProductModal();
+    }
+});
+
+// Close model when hit Esc
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" &&
+        !productFormSection.classList.contains("hidden")) {
+        closeProductModal();
+    }
+});
+
+function getDataFromModal() {
+    const name = getId("product-name").value;
+    const price = getId("product-price").value;
+    const screen = getId("product-screen").value;
+    const backCamera = getId("product-back-camera").value;
+    const frontCamera = getId("product-front-camera").value;
+    const img = getId("product-image").value;
+    const desc = getId("product-description").value;
+    const type = getId("product-brand").value;
+
+    let isValid = true;
+
+    isValid &= validateText(name, "product-name");
+    isValid &= validateText(screen, "product-screen");
+    isValid &= validateText(backCamera, "product-back-camera");
+    isValid &= validateText(frontCamera, "product-front-camera");
+    isValid &= validateText(type, "product-brand");
+    isValid &= validatePrice(price);
+
+    if (!isValid) return;
+
+    const product = new Product("", name, price, screen, backCamera, frontCamera, img, desc, type);
+
+    return product;
+}
+
+
+
+// >>> HTML interaction
+
 getId("sort-price").onchange = (() => {
     getAllProduct();
 })
@@ -104,4 +232,13 @@ getId("search-product").onkeyup = (() => {
     getAllProduct();
 })
 
+getId("product-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const data = getDataFromModal();
+    if (data !== null) {
+        addProduct(data);
+    }
+});
+
 getAllProduct();
+
