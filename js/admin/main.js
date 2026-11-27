@@ -123,10 +123,8 @@ function validateText(text, divId) {
         getId(`${divId}-error`).classList.remove("hidden");
         return false;
     }
-    else {
-        getId(`${divId}-error`).classList.add("hidden");
-        return true;
-    }
+    getId(`${divId}-error`).classList.add("hidden");
+    return true;
 }
 
 function validatePrice(value) {
@@ -135,15 +133,29 @@ function validatePrice(value) {
         return false;
     }
 
-    else if (value < 0) {
+    if (value < 0) {
         getId("product-price-error").classList.remove("hidden");
         getId("product-price-error").innerHTML = "Price must be greater than 0";
         return false;
     }
-    else {
+    getId("product-price-error").classList.add("hidden");
+    return true;
+}
+
+function validateImgURL(url) {
+    if (url === null || url.trim() === "") {
         getId("product-price-error").classList.add("hidden");
         return true;
     }
+
+    const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+    if (!pattern.test(url)) {
+        getId("product-img-error").classList.remove("hidden");
+        return false;
+    }
+    getId("product-img-error").classList.add("hidden");
+    return true;
+
 }
 
 
@@ -211,6 +223,7 @@ function getDataFromModal() {
     isValid &= validateText(backCamera, "product-back-camera");
     isValid &= validateText(frontCamera, "product-front-camera");
     isValid &= validateText(type, "product-brand");
+    isValid &= validateImgURL(img);
     isValid &= validatePrice(price);
 
     if (!isValid) return null;
@@ -233,6 +246,8 @@ getId("search-product").onkeyup = (() => {
 })
 
 getId("product-form").addEventListener("submit", function(event) {
+
+    // Prevent default form behaviour, which is redirect to new url
     event.preventDefault();
     const data = getDataFromModal();
     if (data !== null) {
